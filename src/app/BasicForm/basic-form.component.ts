@@ -16,22 +16,34 @@ export class BasicFormComponent {
     option: "first",
     info: "lorem ipsum"
   }
-  show:boolean = true;
+  show: boolean = true;
   basicFromModuleVM: BasicFromModule = { ...this.basicFromModule }
+  postMessage: string = '';
+  postError: boolean = true;
+  constructor(private dataService: DataService) { }
 
-  constructor(private dataService: DataService) {}
-
-  onClick(){
+  onClick() {
     this.show = !this.show;
-    setTimeout(() => this.show= !this.show, 2000);
+    setTimeout(() => this.show = !this.show, 2000);
   }
 
-  onSubmit(form: NgForm)
-  {
-    this.dataService.postData(this.basicFromModuleVM).subscribe(
-      result => console.log(result),
-      error => console.log(error)
-    );
+  onError(error: any): void {
+    this.postMessage = error.error.Message;
+    this.postError = false;
+  }
+
+  onSubmit(form: NgForm) {
+
+    if (form.valid) {
+      this.dataService.postData(this.basicFromModuleVM).subscribe(
+        result => console.log(result),
+        error => this.onError(error)
+      );
+    }
+    else {
+      this.postMessage = 'Bro    the form.'
+      this.postError = false;
+    }
   }
 
 }

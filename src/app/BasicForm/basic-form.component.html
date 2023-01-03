@@ -1,5 +1,5 @@
 <div class="container">
-
+    <div class="alert alert-danger" [hidden]="postError">{{postMessage}}</div>
     <form #form="ngForm" (ngSubmit)="onSubmit(form)">
         <div class="form-group">
             <label for="name">Your name</label>

@@ -1,6 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { of } from 'rxjs/internal/observable/of';
 import { BasicFromModule } from '../BasicForm/basic-from-model';
 
 @Injectable({
@@ -8,9 +8,12 @@ import { BasicFromModule } from '../BasicForm/basic-from-model';
 })
 export class DataService {
 
-  constructor() { }
+  private url: string = 'http://localhost:4201/content';
+  private url2: string = 'http://localhost:4201/error';
 
-  postData(basicFromModule: BasicFromModule) : Observable<BasicFromModule> {
-    return of(basicFromModule);
+  constructor(private httpClient : HttpClient) { }
+
+  postData(basicFromModule: BasicFromModule) : Observable<any> {
+    return this.httpClient.post(this.url2, basicFromModule);
   }
 }
