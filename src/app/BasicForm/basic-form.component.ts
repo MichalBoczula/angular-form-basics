@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { DataService } from '../Data/data-service.service';
 import { BasicFromModule } from './basic-from-model';
 
 @Component({
@@ -15,9 +16,10 @@ export class BasicFormComponent {
     option: "first",
     info: "lorem ipsum"
   }
-
   show:boolean = true;
   basicFromModuleVM: BasicFromModule = { ...this.basicFromModule }
+
+  constructor(private dataService: DataService) {}
 
   onClick(){
     this.show = !this.show;
@@ -26,7 +28,10 @@ export class BasicFormComponent {
 
   onSubmit(form: NgForm)
   {
-    console.log(form);
+    this.dataService.postData(this.basicFromModuleVM).subscribe(
+      result => console.log(result),
+      error => console.log(error)
+    );
   }
 
 }
